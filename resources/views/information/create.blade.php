@@ -30,10 +30,10 @@
                     <x-forms.input name="sort_order" label="Сортировка" type="number" value="{{ $information->sort_order ?? 0 }}"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.checkbox name="status" label="Включено" checked="{{ $information->status ?? true }}"/>
+                    <x-forms.checkbox name="status" label="Включено" value="{{ $information->status }}"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.checkbox name="bottom" label="Показывать в подвале" checked="{{ $information->bottom ?? false }}"/>
+                    <x-forms.checkbox name="bottom" label="Показывать в подвале" value="{{ $information->bottom }}"/>
                 </div>
                 <div class="col-12">
                     <x-forms.textarea name="description" label="Описание">{{ $information->description ?? '' }}</x-forms.textarea>
@@ -59,6 +59,6 @@
                 <x-button variant="primary" type="submit">Сохранить</x-button>
                 <x-button variant="secondary" type="a" href="{{ route('information.index') }}">Отмена</x-button>
             </div>
-        </x-form>
+        </x-forms.form>
     </x-card>
 @endsection

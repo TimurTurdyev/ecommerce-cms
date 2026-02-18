@@ -36,14 +36,14 @@
                     <x-forms.input name="sort_order" label="Сортировка" type="number" value="{{ $option->sort_order ?? 0 }}"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.forms.checkbox name="status" label="Включено" checked="{{ $option->status ?? true }}"/>
+                    <x-forms.checkbox name="status" label="Включено" value="{{ $option->status }}"/>
                 </div>
             </div>
             <div class="mt-3">
                 <x-button variant="primary" type="submit">Сохранить</x-button>
                 <x-button variant="secondary" type="a" href="{{ route('option.index') }}">Отмена</x-button>
             </div>
-        </x-form>
+        </x-forms.form>
     </x-card>
 
     @if($option->id)

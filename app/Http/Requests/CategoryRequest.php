@@ -26,4 +26,11 @@ class CategoryRequest extends FormRequest
             'meta_keyword' => ['nullable', 'string'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        if (! $this->has('status')) {
+            $this->merge(['status' => false]);
+        }
+    }
 }

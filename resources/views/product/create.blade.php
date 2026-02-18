@@ -62,7 +62,7 @@
                     <x-forms.input name="height" label="Высота" type="number" step="0.01" value="{{ $product->height ?? 0 }}"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.checkbox name="status" label="Включено" checked="{{ $product->status ?? true }}"/>
+                    <x-forms.checkbox name="status" label="Включено" value="{{ $product->status }}"/>
                 </div>
                 <div class="col-12">
                     <x-forms.textarea name="description" label="Описание">{{ $product->description ?? '' }}</x-forms.textarea>
@@ -91,6 +91,6 @@
                 <x-button variant="primary" type="submit">Сохранить</x-button>
                 <x-button variant="secondary" type="a" href="{{ route('product.index') }}">Отмена</x-button>
             </div>
-        </x-form>
+        </x-forms.form>
     </x-card>
 @endsection

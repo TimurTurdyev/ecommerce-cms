@@ -20,4 +20,11 @@ class ManufacturerRequest extends FormRequest
             'status' => ['nullable', 'boolean'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        if (! $this->has('status')) {
+            $this->merge(['status' => false]);
+        }
+    }
 }

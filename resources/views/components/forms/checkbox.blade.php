@@ -7,7 +7,7 @@
     $name = $attributes->get('name');
     $id = $attributes->get('id', $name);
     $label = $attributes->get('label');
-    $checked = old($name, $attributes->has('checked'));
+    $value = old($name, $attributes->get('value'));
     $error = $errors->first($name);
 
     $classes = 'form-check-input';
@@ -23,8 +23,9 @@
         type="checkbox"
         id="{{ $id }}"
         name="{{ $name }}"
-        {{ $checked ? 'checked' : '' }}
-        {{ $attributes->except(['id', 'name', 'class', 'checked', 'label', 'switch', 'inline'])->merge(['class' => $classes]) }}
+        value="1"
+        {{ $value ? 'checked' : '' }}
+        {{ $attributes->except(['id', 'name', 'class', 'checked', 'label', 'switch', 'inline', 'value'])->merge(['class' => $classes]) }}
     >
 
     @if($label)
