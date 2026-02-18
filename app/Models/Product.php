@@ -63,4 +63,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductAttribute::class);
     }
+
+    public function options(): HasMany
+    {
+        return $this->hasMany(ProductOption::class);
+    }
 }

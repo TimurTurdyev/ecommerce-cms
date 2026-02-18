@@ -20,7 +20,7 @@
 
 @section('content')
     <x-card>
-        <x-forms.form method="{{ $information->id ? 'put' : 'post' }}"
+        <x-forms.form method="post"
                       action="{{ $information->id ? route('information.update', $information) : route('information.store') }}">
             <div class="row g-3">
                 <div class="col-md-6">

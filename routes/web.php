@@ -70,6 +70,20 @@ Route::middleware('auth')->group(function () {
             $router->post('/{product}/update', 'update')->name('update');
         });
 
+    Route::controller(\App\Http\Controllers\OptionController::class)
+        ->prefix('option')
+        ->name('option.')
+        ->group(static function (Router $router) {
+            $router->get('/', 'index')->name('index');
+            $router->get('/create', 'createOrEdit')->name('create');
+            $router->get('/{option}/edit', 'createOrEdit')->name('edit');
+            $router->delete('/{option}/delete', 'delete')->name('delete');
+            $router->post('/store', 'store')->name('store');
+            $router->post('/{option}/update', 'update')->name('update');
+            $router->post('/{option}/value', 'storeValue')->name('value.store');
+            $router->delete('/value/{optionValue}/delete', 'deleteValue')->name('value.delete');
+        });
+
     Route::controller(\App\Http\Controllers\InformationController::class)
         ->prefix('information')
         ->name('information.')

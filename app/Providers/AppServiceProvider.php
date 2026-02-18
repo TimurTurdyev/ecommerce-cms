@@ -96,6 +96,12 @@ class AppServiceProvider extends ServiceProvider
                         'url' => route('manufacturer.index'),
                         'active' => request()->routeIs('manufacturer.*'),
                     ],
+                    [
+                        'label' => 'Опции',
+                        'icon' => 'adjustments-horizontal',
+                        'url' => route('option.index'),
+                        'active' => request()->routeIs('option.*'),
+                    ],
                 ],
             ],
             [
