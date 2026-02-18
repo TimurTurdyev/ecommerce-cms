@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ManufacturerRequest;
 use App\Models\Manufacturer;
 use App\Tables\ManufacturersTable;
 use App\Tables\Renderers\TableRenderer;
@@ -33,16 +34,16 @@ class ManufacturerController extends Controller
         return back();
     }
 
-    public function store(Request $request)
+    public function store(ManufacturerRequest $request)
     {
-        $manufacturer = Manufacturer::create($request->only(['name', 'image', 'sort_order', 'status']));
+        $manufacturer = Manufacturer::create($request->validated());
 
         return redirect()->route('manufacturer.edit', $manufacturer);
     }
 
-    public function update(Manufacturer $manufacturer, Request $request)
+    public function update(Manufacturer $manufacturer, ManufacturerRequest $request)
     {
-        $manufacturer->update($request->only(['name', 'image', 'sort_order', 'status']));
+        $manufacturer->update($request->validated());
 
         return redirect()->route('manufacturer.edit', $manufacturer);
     }

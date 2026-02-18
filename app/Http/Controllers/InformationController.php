@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InformationRequest;
 use App\Models\Information;
 use App\Tables\InformationsTable;
 use App\Tables\Renderers\TableRenderer;
@@ -33,22 +34,16 @@ class InformationController extends Controller
         return back();
     }
 
-    public function store(Request $request)
+    public function store(InformationRequest $request)
     {
-        $information = Information::create($request->only([
-            'bottom', 'sort_order', 'status',
-            'title', 'description', 'meta_title', 'meta_h1', 'meta_description', 'meta_keyword',
-        ]));
+        $information = Information::create($request->validated());
 
         return redirect()->route('information.edit', $information);
     }
 
-    public function update(Information $information, Request $request)
+    public function update(Information $information, InformationRequest $request)
     {
-        $information->update($request->only([
-            'bottom', 'sort_order', 'status',
-            'title', 'description', 'meta_title', 'meta_h1', 'meta_description', 'meta_keyword',
-        ]));
+        $information->update($request->validated());
 
         return redirect()->route('information.edit', $information);
     }

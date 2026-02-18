@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderHistory;
 use App\Tables\OrdersTable;
@@ -30,12 +31,12 @@ class OrderController extends Controller
         return view('order.edit', compact('order', 'statuses'));
     }
 
-    public function update(Order $order, Request $request)
+    public function update(Order $order, OrderRequest $request)
     {
         $oldStatus = $order->status;
         $newStatus = $request->input('status');
 
-        $order->update($request->only(['status', 'comment']));
+        $order->update($request->validated());
 
         if ($oldStatus !== $newStatus) {
             OrderHistory::create([

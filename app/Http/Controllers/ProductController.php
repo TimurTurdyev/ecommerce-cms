@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Manufacturer;
 use App\Models\Product;
@@ -38,13 +39,9 @@ class ProductController extends Controller
         return back();
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $product = Product::create($request->only([
-            'model', 'sku', 'quantity', 'price', 'weight', 'length', 'width', 'height',
-            'image', 'manufacturer_id', 'status', 'sort_order',
-            'name', 'description', 'meta_title', 'meta_h1', 'meta_description', 'meta_keyword', 'tag',
-        ]));
+        $product = Product::create($request->validated());
 
         if ($request->input('categories')) {
             $product->categories()->attach($request->input('categories'));
@@ -53,13 +50,9 @@ class ProductController extends Controller
         return redirect()->route('product.edit', $product);
     }
 
-    public function update(Product $product, Request $request)
+    public function update(Product $product, ProductRequest $request)
     {
-        $product->update($request->only([
-            'model', 'sku', 'quantity', 'price', 'weight', 'length', 'width', 'height',
-            'image', 'manufacturer_id', 'status', 'sort_order',
-            'name', 'description', 'meta_title', 'meta_h1', 'meta_description', 'meta_keyword', 'tag',
-        ]));
+        $product->update($request->validated());
 
         if ($request->has('categories')) {
             $product->categories()->sync($request->input('categories'));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Tables\CategoriesTable;
 use App\Tables\Renderers\TableRenderer;
@@ -36,22 +37,16 @@ class CategoryController extends Controller
         return back();
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $category = Category::create($request->only([
-            'parent_id', 'image', 'sort_order', 'status',
-            'name', 'description', 'meta_title', 'meta_h1', 'meta_description', 'meta_keyword',
-        ]));
+        $category = Category::create($request->validated());
 
         return redirect()->route('category.edit', $category);
     }
 
-    public function update(Category $category, Request $request)
+    public function update(Category $category, CategoryRequest $request)
     {
-        $category->update($request->only([
-            'parent_id', 'image', 'sort_order', 'status',
-            'name', 'description', 'meta_title', 'meta_h1', 'meta_description', 'meta_keyword',
-        ]));
+        $category->update($request->validated());
 
         return redirect()->route('category.edit', $category);
     }
