@@ -76,13 +76,47 @@ class AppServiceProvider extends ServiceProvider
     {
         return [
             [
-                'label' => 'Примеры',
+                'label' => 'Каталог',
                 'items' => [
                     [
-                        'label' => 'Example 1',
-                        'icon' => 'code-bracket',
-                        'url' => route('example'),
-                        'active' => request()->routeIs('example'),
+                        'label' => 'Товары',
+                        'icon' => 'cube',
+                        'url' => route('product.index'),
+                        'active' => request()->routeIs('product.*'),
+                    ],
+                    [
+                        'label' => 'Категории',
+                        'icon' => 'folder',
+                        'url' => route('category.index'),
+                        'active' => request()->routeIs('category.*'),
+                    ],
+                    [
+                        'label' => 'Производители',
+                        'icon' => 'building-office',
+                        'url' => route('manufacturer.index'),
+                        'active' => request()->routeIs('manufacturer.*'),
+                    ],
+                ],
+            ],
+            [
+                'label' => 'Заказы',
+                'items' => [
+                    [
+                        'label' => 'Заказы',
+                        'icon' => 'shopping-cart',
+                        'url' => route('order.index'),
+                        'active' => request()->routeIs('order.*'),
+                    ],
+                ],
+            ],
+            [
+                'label' => 'Контент',
+                'items' => [
+                    [
+                        'label' => 'Статьи',
+                        'icon' => 'document-text',
+                        'url' => route('information.index'),
+                        'active' => request()->routeIs('information.*'),
                     ],
                 ],
             ],
@@ -90,28 +124,15 @@ class AppServiceProvider extends ServiceProvider
                 'label' => 'Настройки',
                 'items' => [
                     [
-                        'label' => 'Настройки системы',
-                        'icon' => 'cog-6-tooth',
-                        'url' => '#',
-                        'active' => request()->routeIs('settings.system'),
-                    ],
-                    [
                         'label' => 'Пользователи',
                         'icon' => 'user-group',
                         'url' => route('user.index'),
                         'active' => request()->routeIs('user.*'),
                     ],
-                    [
-                        'label' => 'Интеграции',
-                        'icon' => 'puzzle-piece',
-                        'url' => '#',
-                        'active' => request()->routeIs('settings.integrations'),
-                    ],
                 ],
             ],
         ];
     }
-
 
     protected function getFooterLinks(): array
     {

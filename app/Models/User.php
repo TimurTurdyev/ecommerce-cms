@@ -18,6 +18,8 @@ class User extends Authenticatable
         'worker' => 'worker',
     ];
 
+    public const DEFAULT_LANGUAGE_ID = 1;
+
     protected $fillable = [
         'email',
         'department_id',
