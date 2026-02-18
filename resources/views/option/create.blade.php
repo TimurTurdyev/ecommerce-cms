@@ -27,26 +27,23 @@
                       action="{{ $option->id ? route('option.update', $option) : route('option.store') }}">
             <div class="row g-3">
                 <div class="col-md-6">
-                    <x-forms.input name="name" label="Название" value="{{ old('name', $option->name ?? '') }}"
-                                   required/>
+                    <x-forms.input name="name" label="Название" value="{{ $option->name ?? '' }}" required/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.select name="type" label="Тип" :options="App\Models\Option::TYPES"
-                                    value="{{ old('type', $option->type ?? 'select') }}"/>
+                    <x-forms.select name="type" label="Тип" :options="App\Models\Option::TYPES" :value="$option->type ?? 'select'"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name="sort_order" label="Сортировка" type="number"
-                                   value="{{ old('sort_order', $option->sort_order ?? 0) }}"/>
+                    <x-forms.input name="sort_order" label="Сортировка" type="number" value="{{ $option->sort_order ?? 0 }}"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.checkbox name="status" label="Включено" value="1"/>
+                    <x-forms.forms.checkbox name="status" label="Включено" checked="{{ $option->status ?? true }}"/>
                 </div>
             </div>
             <div class="mt-3">
                 <x-button variant="primary" type="submit">Сохранить</x-button>
                 <x-button variant="secondary" type="a" href="{{ route('option.index') }}">Отмена</x-button>
             </div>
-        </x-forms.form>
+        </x-form>
     </x-card>
 
     @if($option->id)

@@ -130,13 +130,13 @@
                         @csrf
                         @method('put')
                         <div class="mb-3">
-                            <x-forms.select name="status" label="Статус" :options="$statuses" value="{{ old('status', $order->status) }}" />
+                            <x-forms.forms.select name="status" label="Статус" :options="$statuses" :value="$order->status" />
                         </div>
                         <div class="mb-3">
-                            <x-forms.textarea name="comment" label="Комментарий">{{ old('comment') }}</x-forms.textarea>
+                            <x-forms.forms.textarea name="comment" label="Комментарий"></x-forms.textarea>
                         </div>
                         <x-button variant="primary" type="submit">Сохранить</x-button>
-                    </x-forms.form>
+                    </x-form>
                 </x-slot:body>
             </x-card>
         </div>

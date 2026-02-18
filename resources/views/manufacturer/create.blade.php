@@ -24,22 +24,19 @@
                       action="{{ $manufacturer->id ? route('manufacturer.update', $manufacturer) : route('manufacturer.store') }}">
             <div class="row g-3">
                 <div class="col-md-6">
-                    <x-forms.input name="name" label="Название" value="{{ old('name', $manufacturer->name ?? '') }}"
-                                   required/>
+                    <x-forms.forms.input name="name" label="Название" value="{{ $manufacturer->name ?? '' }}" required/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name="sort_order" label="Сортировка" type="number"
-                                   value="{{ old('sort_order', $manufacturer->sort_order ?? 0) }}"/>
+                    <x-forms.forms.input name="sort_order" label="Сортировка" type="number" value="{{ $manufacturer->sort_order ?? 0 }}"/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.checkbox name="status" label="Включено"
-                                      checked="{{ old('status', $manufacturer->status ?? true) }}"/>
+                    <x-forms.forms.checkbox name="status" label="Включено" checked="{{ $manufacturer->status ?? true }}"/>
                 </div>
             </div>
             <div class="mt-3">
                 <x-button variant="primary" type="submit">Сохранить</x-button>
                 <x-button variant="secondary" type="a" href="{{ route('manufacturer.index') }}">Отмена</x-button>
             </div>
-        </x-forms.form>
+        </x-form>
     </x-card>
 @endsection
