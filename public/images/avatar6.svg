@@ -1,0 +1,78 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Фон -->
+    <defs>
+        <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#941922" stop-opacity="0.1"/>
+            <stop offset="100%" stop-color="#941922" stop-opacity="0.03"/>
+        </linearGradient>
+    </defs>
+    <rect width="120" height="120" fill="url(#hexGrad)" rx="25"/>
+
+    <!-- Центральный гексагон -->
+    <polygon points="60,30 75,40 75,60 60,70 45,60 45,40"
+             fill="#941922" fill-opacity="0.9" stroke="#941922" stroke-width="2">
+        <animate attributeName="fill-opacity" values="0.9;0.7;0.9" dur="3s" repeatCount="indefinite"/>
+    </polygon>
+
+    <!-- Внешние гексагоны -->
+    <g opacity="0.7">
+        <polygon points="60,15 75,25 75,45 60,55 45,45 45,25"
+                 stroke="#941922" stroke-width="1.5" fill="none">
+            <animate attributeName="stroke-opacity" values="0.7;0.4;0.7" dur="4s" repeatCount="indefinite"/>
+        </polygon>
+
+        <polygon points="85,40 100,50 100,70 85,80 70,70 70,50"
+                 stroke="#941922" stroke-width="1.5" fill="none">
+            <animate attributeName="stroke-opacity" values="0.7;0.4;0.7" dur="4s" repeatCount="indefinite" begin="0.3s"/>
+        </polygon>
+
+        <polygon points="35,40 20,50 20,70 35,80 50,70 50,50"
+                 stroke="#941922" stroke-width="1.5" fill="none">
+            <animate attributeName="stroke-opacity" values="0.7;0.4;0.7" dur="4s" repeatCount="indefinite" begin="0.6s"/>
+        </polygon>
+
+        <polygon points="60,85 75,95 75,115 60,125 45,115 45,95"
+                 stroke="#941922" stroke-width="1.5" fill="none">
+            <animate attributeName="stroke-opacity" values="0.7;0.4;0.7" dur="4s" repeatCount="indefinite" begin="0.9s"/>
+        </polygon>
+    </g>
+
+    <!-- Соединительные линии -->
+    <g stroke="#941922" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="2,2">
+        <line x1="60" y1="30" x2="60" y2="15"/>
+        <line x1="75" y1="40" x2="85" y2="40"/>
+        <line x1="45" y1="40" x2="35" y2="40"/>
+        <line x1="60" y1="70" x2="60" y2="85"/>
+        <line x1="75" y1="60" x2="85" y2="70"/>
+        <line x1="45" y1="60" x2="35" y2="70"/>
+    </g>
+
+    <!-- Анимированные точки в вершинах -->
+    <circle cx="60" cy="30" r="3" fill="#941922">
+        <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="75" cy="40" r="3" fill="#941922">
+        <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite" begin="0.2s"/>
+    </circle>
+
+    <circle cx="75" cy="60" r="3" fill="#941922">
+        <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+    </circle>
+
+    <circle cx="60" cy="70" r="3" fill="#941922">
+        <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+    </circle>
+
+    <circle cx="45" cy="60" r="3" fill="#941922">
+        <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+    </circle>
+
+    <circle cx="45" cy="40" r="3" fill="#941922">
+        <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+
+    <!-- Внутренний элемент данных -->
+    <path d="M58 45L62 45L60 50Z" fill="#FFFFFF"/>
+    <circle cx="60" cy="55" r="4" fill="#FFFFFF" stroke="#941922" stroke-width="1"/>
+</svg>

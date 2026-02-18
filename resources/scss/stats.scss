@@ -1,0 +1,173 @@
+/* Статистика - общие стили */
+.stat-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .stat-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.stat-card.card-link:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-bs-theme="dark"] .stat-card.card-link:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    border-radius: 0.75rem;
+    flex-shrink: 0;
+}
+
+.stat-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Карточка сравнения */
+.stat-comparison .progress {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="dark"] .stat-comparison .progress {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Прогресс статистика */
+.stat-progress .progress {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="dark"] .stat-progress .progress {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.stat-values {
+    font-size: 0.875rem;
+}
+
+/* Тренд статистика */
+.trend-chart {
+    margin: 0 -1.25rem -1.25rem;
+    overflow: hidden;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+.trend-chart svg {
+    display: block;
+}
+
+/* KPI статистика */
+.stat-kpi.card-compact {
+    padding: 1rem;
+}
+
+.stat-kpi.card-compact .card-body {
+    padding: 0;
+}
+
+/* Список статистик */
+.stats-list {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+[data-bs-theme="dark"] .stats-list {
+    background: var(--bs-dark);
+}
+
+.stats-list.list-divided .stats-list-item:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .stats-list.list-divided .stats-list-item:not(:last-child) {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.stats-list.list-bordered {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .stats-list.list-bordered {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.stats-list.list-compact .stats-list-item {
+    padding: 0.75rem 1rem;
+}
+
+.stats-list:not(.list-compact) .stats-list-item {
+    padding: 1rem 1.25rem;
+}
+
+/* График статистика */
+.stat-chart .chart-container {
+    position: relative;
+}
+
+.stat-chart .chart-legend {
+    font-size: 0.875rem;
+}
+
+/* Анимации для статистики */
+@keyframes statPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.stat-card.loading {
+    animation: statPulse 1.5s infinite;
+}
+
+/* Сетка статистики */
+.row.g-2 .stat-card {
+    margin-bottom: 0.5rem;
+}
+
+.row.g-3 .stat-card {
+    margin-bottom: 1rem;
+}
+
+.row.g-4 .stat-card {
+    margin-bottom: 1.5rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .trend-chart {
+        margin: 0 -1rem -1rem;
+    }
+}

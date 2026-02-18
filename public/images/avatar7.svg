@@ -1,0 +1,74 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org2000/svg">
+    <!-- Фон с цифровым градиентом -->
+    <defs>
+        <pattern id="binaryPattern" patternUnits="userSpaceOnUse" width="10" height="10">
+            <path d="M0,0 L10,0 L10,10 L0,10 Z" fill="#941922" fill-opacity="0.05"/>
+            <circle cx="3" cy="3" r="1" fill="#941922" fill-opacity="0.1"/>
+            <circle cx="7" cy="7" r="1" fill="#941922" fill-opacity="0.1"/>
+        </pattern>
+    </defs>
+    <rect width="120" height="120" fill="url(#binaryPattern)" rx="30"/>
+
+    <!-- Концентрические волны -->
+    <circle cx="60" cy="60" r="15" stroke="#941922" stroke-width="3" fill="none">
+        <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="60" cy="60" r="25" stroke="#941922" stroke-width="2" stroke-opacity="0.7" fill="none">
+        <animate attributeName="r" values="25;30;25" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
+    </circle>
+
+    <circle cx="60" cy="60" r="35" stroke="#941922" stroke-width="1.5" stroke-opacity="0.5" fill="none">
+        <animate attributeName="r" values="35;40;35" dur="3s" repeatCount="indefinite" begin="0.4s"/>
+    </circle>
+
+    <circle cx="60" cy="60" r="45" stroke="#941922" stroke-width="1" stroke-opacity="0.3" fill="none">
+        <animate attributeName="r" values="45;50;45" dur="3.5s" repeatCount="indefinite" begin="0.6s"/>
+    </circle>
+
+    <!-- Центральный передатчик -->
+    <path d="M55 45L65 45L60 55Z" fill="#941922" opacity="0.9"/>
+    <rect x="57" y="55" width="6" height="15" rx="2" fill="#941922" opacity="0.8"/>
+
+    <!-- Бинарные данные вокруг -->
+    <g font-family="monospace" font-size="8" fill="#941922" opacity="0.6">
+        <text x="40" y="35">1010</text>
+        <text x="75" y="35">1101</text>
+        <text x="85" y="60">0110</text>
+        <text x="75" y="85">1001</text>
+        <text x="40" y="85">0011</text>
+        <text x="25" y="60">0101</text>
+
+        <!-- Анимация бинарных данных -->
+        <animate attributeName="opacity" values="0.6;0.8;0.6" dur="4s" repeatCount="indefinite"/>
+    </g>
+
+    <!-- Анимированные частицы данных -->
+    <circle cx="40" cy="40" r="2" fill="#941922">
+        <animate attributeName="cx" values="40;42;40" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="40;38;40" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="80" cy="40" r="2" fill="#941922">
+        <animate attributeName="cx" values="80;78;80" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+        <animate attributeName="cy" values="40;42;40" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+    </circle>
+
+    <circle cx="80" cy="80" r="2" fill="#941922">
+        <animate attributeName="cx" values="80;82;80" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+        <animate attributeName="cy" values="80;78;80" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+    </circle>
+
+    <circle cx="40" cy="80" r="2" fill="#941922">
+        <animate attributeName="cx" values="40;38;40" dur="2s" repeatCount="indefinite" begin="0.9s"/>
+        <animate attributeName="cy" values="80;82;80" dur="2s" repeatCount="indefinite" begin="0.9s"/>
+    </circle>
+
+    <!-- Сигнальные линии к частицам -->
+    <g stroke="#941922" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="1,2">
+        <line x1="60" y1="60" x2="40" y2="40"/>
+        <line x1="60" y1="60" x2="80" y2="40"/>
+        <line x1="60" y1="60" x2="80" y2="80"/>
+        <line x1="60" y1="60" x2="40" y2="80"/>
+    </g>
+</svg>

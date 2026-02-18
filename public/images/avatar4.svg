@@ -1,0 +1,56 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Фон -->
+    <rect width="120" height="120" rx="30" fill="#941922" fill-opacity="0.08"/>
+
+    <!-- Антенна -->
+    <path d="M60 30L60 70" stroke="#941922" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Основание антенны -->
+    <rect x="52" y="70" width="16" height="20" rx="3" fill="#941922"/>
+
+    <!-- Волны сигнала -->
+    <path d="M60 40C45 40 35 55 35 70" stroke="#941922" stroke-width="3" stroke-opacity="0.6" fill="none">
+        <animate attributeName="stroke-dashoffset" values="0;100" dur="3s" repeatCount="indefinite"/>
+    </path>
+
+    <path d="M60 40C75 40 85 55 85 70" stroke="#941922" stroke-width="3" stroke-opacity="0.6" fill="none">
+        <animate attributeName="stroke-dashoffset" values="0;100" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+    </path>
+
+    <!-- Точки приема -->
+    <circle cx="35" cy="70" r="4" fill="#941922" fill-opacity="0.8">
+        <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="85" cy="70" r="4" fill="#941922" fill-opacity="0.8">
+        <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite" begin="0.3s"/>
+    </circle>
+
+    <!-- Соединения с точками -->
+    <line x1="60" y1="50" x2="35" y2="70" stroke="#941922" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="2,2"/>
+    <line x1="60" y1="50" x2="85" y2="70" stroke="#941922" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="2,2"/>
+
+    <!-- Исходящие сигналы -->
+    <circle cx="60" cy="40" r="8" fill="#941922" fill-opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Волны от антенны -->
+    <circle cx="60" cy="40" r="20" stroke="#941922" stroke-width="1" stroke-opacity="0.3" fill="none">
+        <animate attributeName="r" values="20;30;20" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="60" cy="40" r="35" stroke="#941922" stroke-width="1" stroke-opacity="0.2" fill="none">
+        <animate attributeName="r" values="35;45;35" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Технологические линии на фоне -->
+    <g opacity="0.05">
+        <line x1="10" y1="10" x2="110" y2="110" stroke="#941922" stroke-width="1"/>
+        <line x1="110" y1="10" x2="10" y2="110" stroke="#941922" stroke-width="1"/>
+        <line x1="60" y1="10" x2="60" y2="110" stroke="#941922" stroke-width="1"/>
+        <line x1="10" y1="60" x2="110" y2="60" stroke="#941922" stroke-width="1"/>
+    </g>
+</svg>

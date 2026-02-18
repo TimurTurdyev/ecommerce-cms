@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+// Переменные Bootstrap
+$primary: #22333b !default;
+$secondary: #6c757d !default;
+$success: #588157 !default;
+$info: #56a3f5 !default;
+$warning: #f77f00 !default;
+$danger: #d62828 !default;
+$light: #fbf2c0 !default;
+$dark: #003049 !default;
+
+// Import Bootstrap
+@import "bootstrap/scss/bootstrap";
+@import 'layout';
+@import 'icon';
+@import 'table';
+
+body {
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+[data-table-ajax] .table th:first-child,
+[data-table-ajax] .table td:first-child {
+    padding-left: 1rem;
+}

@@ -1,0 +1,60 @@
+<svg width="120" height="120" class="rotate-180" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <style>
+            .rotate-180 {
+                transform: rotate(180deg);
+                transform-origin: center;
+                transform-box: fill-box;
+            }
+        </style>
+    </defs>
+
+    <!-- Фон -->
+    <circle cx="60" cy="60" r="60" fill="#941922" fill-opacity="0.2"/>
+
+    <!-- Буква W в стиле волны -->
+    <path d="M30 85L45 45L60 70L75 45L90 85" stroke="#941922" stroke-width="8" stroke-linecap="round"
+          stroke-linejoin="round" fill="none"/>
+
+    <!-- Точки передачи данных -->
+    <circle cx="45" cy="45" r="5" fill="#941922">
+        <animate attributeName="r" values="5;7;5" dur="1s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="75" cy="45" r="5" fill="#941922">
+        <animate attributeName="r" values="5;7;5" dur="1s" repeatCount="indefinite" begin="0.3s"/>
+    </circle>
+
+    <circle cx="60" cy="70" r="5" fill="#941922">
+        <animate attributeName="r" values="5;7;5" dur="1s" repeatCount="indefinite" begin="0.6s"/>
+    </circle>
+
+    <!-- Сигналы от точек -->
+    <circle cx="45" cy="45" r="15" stroke="#941922" stroke-width="1" stroke-opacity="0.4" fill="none">
+        <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="75" cy="45" r="15" stroke="#941922" stroke-width="1" stroke-opacity="0.4" fill="none">
+        <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+        <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+
+    <!-- Соединительные линии -->
+    <path d="M45 45L60 70L75 45" stroke="#941922" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="3,3"
+          fill="none"/>
+
+    <!-- Технологический фон -->
+    <g opacity="0.1">
+        <line x1="20" y1="20" x2="100" y2="20" stroke="#941922" stroke-width="1"/>
+        <line x1="20" y1="40" x2="100" y2="40" stroke="#941922" stroke-width="1"/>
+        <line x1="20" y1="60" x2="100" y2="60" stroke="#941922" stroke-width="1"/>
+        <line x1="20" y1="80" x2="100" y2="80" stroke="#941922" stroke-width="1"/>
+
+        <line x1="20" y1="20" x2="20" y2="100" stroke="#941922" stroke-width="1"/>
+        <line x1="40" y1="20" x2="40" y2="100" stroke="#941922" stroke-width="1"/>
+        <line x1="60" y1="20" x2="60" y2="100" stroke="#941922" stroke-width="1"/>
+        <line x1="80" y1="20" x2="80" y2="100" stroke="#941922" stroke-width="1"/>
+        <line x1="100" y1="20" x2="100" y2="100" stroke="#941922" stroke-width="1"/>
+    </g>
+</svg>

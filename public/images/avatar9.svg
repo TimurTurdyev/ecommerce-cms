@@ -1,0 +1,96 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Фон с градиентным кругом -->
+    <defs>
+        <radialGradient id="dynamicGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#941922" stop-opacity="0.2"/>
+            <stop offset="70%" stop-color="#941922" stop-opacity="0.05"/>
+            <stop offset="100%" stop-color="#941922" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+    <circle cx="60" cy="60" r="60" fill="url(#dynamicGrad)"/>
+
+    <!-- Центральный узел графа -->
+    <circle cx="60" cy="60" r="12" fill="#941922" fill-opacity="0.9">
+        <animate attributeName="r" values="12;14;12" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Внешние узлы графа -->
+    <g>
+        <circle cx="35" cy="40" r="6" fill="#941922" fill-opacity="0.8">
+            <animate attributeName="cx" values="35;37;35" dur="3s" repeatCount="indefinite"/>
+        </circle>
+
+        <circle cx="85" cy="40" r="6" fill="#941922" fill-opacity="0.8">
+            <animate attributeName="cy" values="40;42;40" dur="3s" repeatCount="indefinite" begin="0.2s"/>
+        </circle>
+
+        <circle cx="90" cy="75" r="6" fill="#941922" fill-opacity="0.8">
+            <animate attributeName="cx" values="90;88;90" dur="3s" repeatCount="indefinite" begin="0.4s"/>
+        </circle>
+
+        <circle cx="60" cy="90" r="6" fill="#941922" fill-opacity="0.8">
+            <animate attributeName="cy" values="90;88;90" dur="3s" repeatCount="indefinite" begin="0.6s"/>
+        </circle>
+
+        <circle cx="30" cy="75" r="6" fill="#941922" fill-opacity="0.8">
+            <animate attributeName="cx" values="30;32;30" dur="3s" repeatCount="indefinite" begin="0.8s"/>
+        </circle>
+    </g>
+
+    <!-- Соединительные линии графа -->
+    <g stroke="#941922" stroke-width="1.5" stroke-opacity="0.5">
+        <!-- Основные соединения с центром -->
+        <line x1="60" y1="60" x2="35" y2="40">
+            <animate attributeName="stroke-opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite"/>
+        </line>
+
+        <line x1="60" y1="60" x2="85" y2="40">
+            <animate attributeName="stroke-opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" begin="0.2s"/>
+        </line>
+
+        <line x1="60" y1="60" x2="90" y2="75">
+            <animate attributeName="stroke-opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+        </line>
+
+        <line x1="60" y1="60" x2="60" y2="90">
+            <animate attributeName="stroke-opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+        </line>
+
+        <line x1="60" y1="60" x2="30" y2="75">
+            <animate attributeName="stroke-opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+        </line>
+
+        <!-- Соединения между внешними узлами -->
+        <g stroke-opacity="0.3" stroke-dasharray="2,2">
+            <line x1="35" y1="40" x2="85" y2="40"/>
+            <line x1="85" y1="40" x2="90" y2="75"/>
+            <line x1="90" y1="75" x2="60" y2="90"/>
+            <line x1="60" y1="90" x2="30" y2="75"/>
+            <line x1="30" y1="75" x2="35" y2="40"/>
+        </g>
+    </g>
+
+    <!-- Анимированный поток данных -->
+    <circle cx="60" cy="60" r="3" fill="#FFFFFF">
+        <animate attributeName="r" values="3;4;3" dur="1s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Движущиеся точки данных по линиям -->
+    <circle cx="47.5" cy="50" r="2" fill="#FFFFFF">
+        <animate attributeName="cx" values="47.5;60;47.5" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="50;60;50" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="72.5" cy="50" r="2" fill="#FFFFFF">
+        <animate attributeName="cx" values="72.5;60;72.5" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+        <animate attributeName="cy" values="50;60;50" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+
+    <circle cx="75" cy="67.5" r="2" fill="#FFFFFF">
+        <animate attributeName="cx" values="75;60;75" dur="3s" repeatCount="indefinite" begin="1s"/>
+        <animate attributeName="cy" values="67.5;60;67.5" dur="3s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+
+    <!-- Внутренний элемент центра -->
+    <path d="M57 57L63 57L60 63Z" fill="#FFFFFF"/>
+</svg>
