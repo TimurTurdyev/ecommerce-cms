@@ -14,7 +14,7 @@ class CategoryAutocomplete extends Component
      * Создать экземпляр компонента
      */
     public function __construct(
-        public string $name = 'product_category[]',
+        public string $name = 'product_categories[]',
         public string $label = 'Категории',
         public string $placeholder = 'Начните вводить название категории...',
         public string $url = '/category/search',

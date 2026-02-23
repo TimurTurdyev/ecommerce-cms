@@ -9,11 +9,11 @@
      * Инициализация autocomplete для одного элемента
      */
     function initAutocomplete($wrapper) {
-        var $input = $wrapper.find('.category-autocomplete-input');
-        var $container = $wrapper.find('.category-autocomplete-selected');
-        var searchUrl = $wrapper.data('url') || '/category/search';
-        var inputName = $wrapper.data('name') || 'product_category[]';
-        var selectedCategories = [];
+        let $input = $wrapper.find('.category-autocomplete-input');
+        let $container = $wrapper.find('.category-autocomplete-selected');
+        let searchUrl = $wrapper.data('url') || '/category/search';
+        let inputName = $wrapper.data('name') || 'product_category[]';
+        let selectedCategories = [];
 
         if (!$input.length || !$container.length) {
             return;
@@ -35,8 +35,8 @@
         // Обработка удаления категории
         $container.on('click', '.remove-category', function (e) {
             e.preventDefault();
-            var $category = $(e.currentTarget).closest('.selected-category');
-            var id = parseInt($category.data('id'));
+            let $category = $(e.currentTarget).closest('.selected-category');
+            let id = parseInt($category.data('id'));
             removeCategory(id, $container, selectedCategories);
         });
     }
@@ -46,13 +46,12 @@
      */
     function loadExistingCategories($container, selectedCategories) {
         $container.find('.selected-category').each(function () {
-            var $element = $(this);
-            var id = parseInt($element.data('id'));
-            var name = $element.data('name');
-            var fullPath = $element.data('full-path');
+            let $element = $(this);
+            let id = parseInt($element.data('id'));
+            let name = $element.data('name');
 
             if (id && name) {
-                selectedCategories.push({id: id, name: name, full_path: fullPath});
+                selectedCategories.push({id: id, name: name});
             }
         });
     }
@@ -66,7 +65,7 @@
             return;
         }
 
-        var url = searchUrl + '?q=' + encodeURIComponent(query);
+        let url = searchUrl + '?q=' + encodeURIComponent(query);
 
         $.ajax({
             url: url,
@@ -86,12 +85,12 @@
      * Выбор категории из результатов
      */
     function selectCategory(item, $input, $container, selectedCategories, inputName) {
-        var id = parseInt(item.value);
-        var name = item.name;
-        var fullPath = item.full_path;
+        let id = parseInt(item.value);
+        let name = item.name;
+        let fullPath = item.full_path;
 
         // Проверка на дублирование
-        var exists = selectedCategories.some(function (cat) {
+        let exists = selectedCategories.some(function (cat) {
             return cat.id === id;
         });
 
@@ -121,11 +120,11 @@
         // Удаляем placeholder если есть
         $container.find('.text-muted').remove();
 
-        var html = '<div class="selected-category mb-1 d-inline-block" ' +
+        let html = '<div class="selected-category mb-1 d-inline-block" ' +
             'data-id="' + id + '" ' +
             'data-name="' + escapeHtml(name) + '" ' +
-            'data-full-path="' + escapeHtml(fullPath) + '">' +
             '<a class="remove-category"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd"></path></svg></a>' +
+            '[' + id + '] ' +
             escapeHtml(fullPath || name) +
             '<input type="hidden" name="' + inputName + '" value="' + id + '">' +
             '</div>';
@@ -138,8 +137,8 @@
      */
     function removeCategory(id, $container, selectedCategories) {
         // Удаляем из массива
-        var index = -1;
-        for (var i = 0; i < selectedCategories.length; i++) {
+        let index = -1;
+        for (let i = 0; i < selectedCategories.length; i++) {
             if (selectedCategories[i].id === id) {
                 index = i;
                 break;
@@ -162,7 +161,7 @@
      * Экранирование HTML
      */
     function escapeHtml(text) {
-        var map = {
+        let map = {
             '&': '&amp;',
             '<': '&lt;',
             '>': '&gt;',

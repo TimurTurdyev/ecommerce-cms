@@ -43,9 +43,7 @@ class ProductController extends Controller
     {
         $product = Product::create($request->validated());
 
-        if ($request->input('categories')) {
-            $product->categories()->attach($request->input('categories'));
-        }
+        $product->categories()->sync($request->input('product_categories', []));
 
         return redirect()->route('product.edit', $product);
     }
@@ -54,9 +52,7 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
 
-        if ($request->has('categories')) {
-            $product->categories()->sync($request->input('categories'));
-        }
+        $product->categories()->sync($request->input('product_categories', []));
 
         return redirect()->route('product.edit', $product);
     }

@@ -2,8 +2,8 @@
 (function($) {
     $.fn.autocomplete = function(option) {
         return this.each(function() {
-            var $this = $(this);
-            var $dropdown = $('<ul class="dropdown-menu" />');
+            let $this = $(this);
+            let $dropdown = $('<ul class="dropdown-menu" />');
 
             this.timer = null;
             this.items = [];
@@ -40,7 +40,7 @@
             this.click = function(event) {
                 event.preventDefault();
 
-                var value = $(event.target).parent().attr('data-value');
+                let value = $(event.target).parent().attr('data-value');
 
                 if (value && this.items[value]) {
                     this.select(this.items[value]);
@@ -49,7 +49,7 @@
 
             // Show
             this.show = function() {
-                var pos = $this.position();
+                let pos = $this.position();
 
                 $dropdown.css({
                     top: pos.top + $this.outerHeight(),
@@ -75,10 +75,10 @@
 
             // Response
             this.response = function(json) {
-                var html = '';
-                var category = {};
-                var name;
-                var i = 0, j = 0;
+                let html = '';
+                let category = {};
+                let name;
+                let i = 0, j = 0;
 
                 if (json.length) {
                     for (i = 0; i < json.length; i++) {
@@ -87,7 +87,7 @@
 
                         if (!json[i]['category']) {
                             // ungrouped items
-                            html += '<li data-value="' + json[i]['value'] + '"><a href="#">' + json[i]['label'] + '</a></li>';
+                            html += '<li data-value="' + json[i]['value'] + '"><a href="#">[' + json[i]['value'] + '] ' + json[i]['label'] + '</a></li>';
                         } else {
                             // grouped items
                             name = json[i]['category'];
@@ -103,7 +103,7 @@
                         html += '<li class="dropdown-header">' + name + '</li>';
 
                         for (j = 0; j < category[name].length; j++) {
-                            html += '<li data-value="' + category[name][j]['value'] + '"><a href="#">&nbsp;&nbsp;&nbsp;' + category[name][j]['label'] + '</a></li>';
+                            html += '<li data-value="' + category[name][j]['value'] + '"><a href="#">&nbsp;&nbsp;&nbsp;[' + category[name][j]['value'] + '] ' + category[name][j]['label'] + '</a></li>';
                         }
                     }
                 }
