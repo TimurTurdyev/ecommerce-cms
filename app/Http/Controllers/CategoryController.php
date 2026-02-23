@@ -66,20 +66,13 @@ class CategoryController extends Controller
 
         $query = $validated['q'];
 
-        // Verbose logging
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[CategoryController.search] Search request received', [
-                'query' => $query,
-            ]);
-        }
-
         // Поиск категорий
         $categories = Category::search($query)
             ->limit(10)
             ->get();
 
         // Формирование результатов с full_path
-        $results = $categories->map(function ($category) {
+        $results = $categories->map(static function (Category $category) {
             return [
                 'id' => $category->id,
                 'name' => $category->name,

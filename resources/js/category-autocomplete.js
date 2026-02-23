@@ -1,265 +1,223 @@
 import $ from 'jquery';
 
 /**
- * Autocomplete для выбора категорий в форме товара
+ * Category Autocomplete - функциональный стиль
+ * Использует autocomplete.js плагин
  */
-class CategoryAutocomplete {
-    constructor() {
-        this.searchInput = $('#category-search');
-        this.dropdown = $('#category-dropdown');
-        this.selectedContainer = $('#selected-categories');
-        this.selectedCategories = [];
-        this.searchTimeout = null;
+(function($) {
+    'use strict';
 
-        if (this.searchInput.length) {
-            this.init();
+    // Хранилище выбранных категорий
+    var selectedCategories = [];
+
+    /**
+     * Инициализация autocomplete для категорий
+     */
+    function initCategoryAutocomplete() {
+        var $input = $('#category-search');
+        var $container = $('#selected-categories');
+
+        if (!$input.length) {
+            return;
         }
-    }
 
-    init() {
         console.debug('[CategoryAutocomplete] Initializing');
 
         // Загружаем уже выбранные категории из DOM
-        this.loadExistingCategories();
+        loadExistingCategories($container);
 
-        // Привязываем события
-        this.bindEvents();
+        // Инициализируем autocomplete
+        $input.autocomplete({
+            source: function(query, response) {
+                searchCategories(query, response);
+            },
+            select: function(item) {
+                selectCategory(item, $input, $container);
+            }
+        });
+
+        // Обработка удаления категории
+        $(document).on('click', '.remove-category', function(e) {
+            e.preventDefault();
+            var $category = $(e.currentTarget).closest('.selected-category');
+            var id = parseInt($category.data('id'));
+            removeCategory(id, $container);
+        });
     }
 
     /**
-     * Загрузка уже выбранных категорий при редактировании товара
+     * Загрузка существующих категорий при редактировании
      */
-    loadExistingCategories() {
-        this.selectedContainer.find('.selected-category').each((index, element) => {
-            const $element = $(element);
-            const id = parseInt($element.data('id'));
-            const name = $element.data('name');
-            const fullPath = $element.data('full-path');
+    function loadExistingCategories($container) {
+        $container.find('.selected-category').each(function() {
+            var $element = $(this);
+            var id = parseInt($element.data('id'));
+            var name = $element.data('name');
+            var fullPath = $element.data('full-path');
 
             if (id && name) {
-                this.selectedCategories.push({ id, name, full_path: fullPath });
-                console.debug('[CategoryAutocomplete] Loaded existing category', { id, name, full_path: fullPath });
+                selectedCategories.push({ id: id, name: name, full_path: fullPath });
+                console.debug('[CategoryAutocomplete] Loaded existing category', { id: id, name: name });
             }
         });
 
-        console.debug('[CategoryAutocomplete] Total existing categories', this.selectedCategories.length);
-    }
-
-    /**
-     * Привязка обработчиков событий
-     */
-    bindEvents() {
-        // Поиск при вводе (с debounce 300ms)
-        this.searchInput.on('input', (e) => {
-            const query = e.target.value.trim();
-            this.debounce(() => this.search(query), 300);
-        });
-
-        // Клик на результат поиска
-        $(document).on('click', '.category-result', (e) => {
-            e.preventDefault();
-            const $result = $(e.currentTarget);
-            this.selectCategory(
-                parseInt($result.data('id')),
-                $result.data('name'),
-                $result.data('full-path')
-            );
-        });
-
-        // Удаление категории
-        $(document).on('click', '.remove-category', (e) => {
-            e.preventDefault();
-            const $category = $(e.currentTarget).closest('.selected-category');
-            this.removeCategory(parseInt($category.data('id')));
-        });
-
-        // Закрытие dropdown при клике вне его
-        $(document).on('click', (e) => {
-            if (!$(e.target).closest('#category-search, #category-dropdown').length) {
-                this.hideResults();
-            }
-        });
-
-        // Закрытие dropdown по Escape
-        this.searchInput.on('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.hideResults();
-            }
-        });
-    }
-
-    /**
-     * Debounce функция
-     */
-    debounce(callback, delay) {
-        clearTimeout(this.searchTimeout);
-        this.searchTimeout = setTimeout(callback, delay);
+        console.debug('[CategoryAutocomplete] Total existing categories:', selectedCategories.length);
     }
 
     /**
      * AJAX поиск категорий
      */
-    async search(query) {
-        console.debug('[CategoryAutocomplete] Search triggered', { query });
-
+    function searchCategories(query, callback) {
         // Минимум 2 символа
         if (query.length < 2) {
-            this.hideResults();
+            callback([]);
             return;
         }
 
-        try {
-            const url = `/category/search?q=${encodeURIComponent(query)}`;
-            console.debug('[CategoryAutocomplete] AJAX request', { url });
+        console.debug('[CategoryAutocomplete] Searching', { query: query });
 
-            const response = await fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            });
+        var url = '/category/search?q=' + encodeURIComponent(query);
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.debug('[CategoryAutocomplete] Results received', {
+                    query: query,
+                    count: data.length,
+                    results: data
+                });
+
+                // Преобразуем в формат для autocomplete
+                var items = data.map(function(category) {
+                    return {
+                        label: category.full_path,
+                        value: category.id,
+                        name: category.name,
+                        full_path: category.full_path
+                    };
+                });
+
+                callback(items);
+            },
+            error: function(xhr, status, error) {
+                console.error('[CategoryAutocomplete] Search error', {
+                    query: query,
+                    error: error
+                });
+                callback([]);
             }
-
-            const results = await response.json();
-            console.debug('[CategoryAutocomplete] Search results received', {
-                query,
-                results_count: results.length,
-                results: results
-            });
-
-            this.showResults(results);
-
-        } catch (error) {
-            console.error('[CategoryAutocomplete] Search error', { query, error: error.message });
-            this.showError('Ошибка поиска категорий');
-        }
+        });
     }
 
     /**
-     * Отображение результатов поиска
+     * Выбор категории из результатов
      */
-    showResults(results) {
-        if (!results.length) {
-            this.showNoResults();
-            return;
-        }
+    function selectCategory(item, $input, $container) {
+        var id = parseInt(item.value);
+        var name = item.name;
+        var fullPath = item.full_path;
 
-        const resultsHtml = results.map(category => `
-            <div class="category-result dropdown-item"
-                 data-id="${category.id}"
-                 data-name="${category.name}"
-                 data-full-path="${category.full_path}">
-                ${this.escapeHtml(category.full_path)}
-            </div>
-        `).join('');
-
-        this.dropdown.html(resultsHtml).show();
-    }
-
-    /**
-     * Показать сообщение "Ничего не найдено"
-     */
-    showNoResults() {
-        this.dropdown.html(`
-            <div class="dropdown-item text-muted">
-                Ничего не найдено
-            </div>
-        `).show();
-    }
-
-    /**
-     * Показать ошибку
-     */
-    showError(message) {
-        this.dropdown.html(`
-            <div class="dropdown-item text-danger">
-                ${this.escapeHtml(message)}
-            </div>
-        `).show();
-    }
-
-    /**
-     * Скрыть результаты поиска
-     */
-    hideResults() {
-        this.dropdown.hide().empty();
-    }
-
-    /**
-     * Выбор категории из результатов поиска
-     */
-    selectCategory(id, name, fullPath) {
-        console.debug('[CategoryAutocomplete] Selecting category', { id, name, full_path: fullPath });
+        console.debug('[CategoryAutocomplete] Selecting category', {
+            id: id,
+            name: name,
+            full_path: fullPath
+        });
 
         // Проверка на дублирование
-        if (this.selectedCategories.some(cat => cat.id === id)) {
-            console.debug('[CategoryAutocomplete] Category already selected, ignoring', { id });
-            this.hideResults();
-            this.searchInput.val('').focus();
+        var exists = selectedCategories.some(function(cat) {
+            return cat.id === id;
+        });
+
+        if (exists) {
+            console.debug('[CategoryAutocomplete] Category already selected, ignoring', { id: id });
+            $input.val('');
             return;
         }
 
         // Добавляем в массив
-        this.selectedCategories.push({ id, name, full_path: fullPath });
+        selectedCategories.push({
+            id: id,
+            name: name,
+            full_path: fullPath
+        });
+
         console.debug('[CategoryAutocomplete] Category added', {
-            id,
-            total_selected: this.selectedCategories.length
+            id: id,
+            total: selectedCategories.length
         });
 
         // Добавляем в DOM
-        this.renderSelectedCategory(id, name, fullPath);
+        renderSelectedCategory(id, name, fullPath, $container);
 
-        // Очищаем поле поиска и скрываем результаты
-        this.hideResults();
-        this.searchInput.val('').focus();
+        // Очищаем input
+        $input.val('');
     }
 
     /**
-     * Рендеринг выбранной категории в блоке
+     * Рендеринг выбранной категории
      */
-    renderSelectedCategory(id, name, fullPath) {
-        const categoryHtml = `
-            <div class="selected-category" data-id="${id}" data-name="${name}" data-full-path="${fullPath}">
-                <i class="fa fa-times-circle remove-category"></i>
-                ${this.escapeHtml(fullPath || name)}
-                <input type="hidden" name="product_category[]" value="${id}">
-            </div>
-        `;
+    function renderSelectedCategory(id, name, fullPath, $container) {
+        // Удаляем placeholder если есть
+        $container.find('.text-muted').remove();
 
-        this.selectedContainer.append(categoryHtml);
+        var html = '<div class="selected-category mb-1 d-inline-block" ' +
+            'data-id="' + id + '" ' +
+            'data-name="' + escapeHtml(name) + '" ' +
+            'data-full-path="' + escapeHtml(fullPath) + '">' +
+            '<span class="badge bg-primary">' +
+            '<i class="fa fa-times-circle remove-category" style="cursor: pointer;"></i> ' +
+            escapeHtml(fullPath || name) +
+            '</span>' +
+            '<input type="hidden" name="product_category[]" value="' + id + '">' +
+            '</div>';
+
+        $container.append(html);
     }
 
     /**
-     * Удаление категории из выбранных
+     * Удаление категории
      */
-    removeCategory(id) {
-        console.debug('[CategoryAutocomplete] Removing category', { id });
+    function removeCategory(id, $container) {
+        console.debug('[CategoryAutocomplete] Removing category', { id: id });
 
         // Удаляем из массива
-        this.selectedCategories = this.selectedCategories.filter(cat => cat.id !== id);
+        selectedCategories = selectedCategories.filter(function(cat) {
+            return cat.id !== id;
+        });
+
         console.debug('[CategoryAutocomplete] Category removed', {
-            id,
-            total_selected: this.selectedCategories.length
+            id: id,
+            total: selectedCategories.length
         });
 
         // Удаляем из DOM
-        this.selectedContainer.find(`.selected-category[data-id="${id}"]`).remove();
+        $container.find('.selected-category[data-id="' + id + '"]').remove();
+
+        // Если категорий нет, показываем placeholder
+        if (selectedCategories.length === 0) {
+            $container.html('<p class="text-muted mb-0 small">Выбранные категории будут отображаться здесь</p>');
+        }
     }
 
     /**
-     * Экранирование HTML для предотвращения XSS
+     * Экранирование HTML
      */
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+    function escapeHtml(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
     }
-}
 
-// Инициализация при загрузке DOM
-$(document).ready(function() {
-    new CategoryAutocomplete();
-});
+    // Инициализация при загрузке DOM
+    $(document).ready(function() {
+        initCategoryAutocomplete();
+    });
+
+})(window.jQuery);

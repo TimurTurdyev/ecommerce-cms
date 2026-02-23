@@ -51,33 +51,10 @@ class Category extends Model
      */
     public function getFullPath(): string
     {
-        // Verbose logging
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[Category.getFullPath] Getting full path for category', [
-                'category_id' => $this->id,
-                'category_name' => $this->name,
-                'parent_id' => $this->parent_id,
-            ]);
-        }
-
         if ($this->parent_id && $parent = $this->parent) {
             $path = $parent->getFullPath() . ' > ' . $this->name;
 
-            if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-                Log::debug('[Category.getFullPath] Recursive call result', [
-                    'category_id' => $this->id,
-                    'full_path' => $path,
-                ]);
-            }
-
             return $path;
-        }
-
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[Category.getFullPath] Root category (no parent)', [
-                'category_id' => $this->id,
-                'name' => $this->name,
-            ]);
         }
 
         return $this->name;
@@ -89,24 +66,7 @@ class Category extends Model
      */
     public function scopeSearch($query, $term)
     {
-        // Verbose logging
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[Category.scopeSearch] Searching categories', [
-                'search_term' => $term,
-            ]);
-        }
-
-        $results = $query->where('name', 'LIKE', "%{$term}%")
+        return $query->where('name', 'LIKE', "%{$term}%")
             ->where('status', true);
-
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            $count = $results->count();
-            Log::debug('[Category.scopeSearch] Search results', [
-                'search_term' => $term,
-                'results_count' => $count,
-            ]);
-        }
-
-        return $results;
     }
 }
