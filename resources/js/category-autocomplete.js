@@ -2,7 +2,7 @@
  * Category Autocomplete - универсальный компонент
  * Автоматически инициализируется для элементов с data-category-autocomplete
  */
-(function($) {
+(function ($) {
     'use strict';
 
     /**
@@ -24,16 +24,16 @@
 
         // Инициализируем autocomplete
         $input.autocomplete({
-            source: function(query, response) {
+            source: function (query, response) {
                 searchCategories(query, response, searchUrl);
             },
-            select: function(item) {
+            select: function (item) {
                 selectCategory(item, $input, $container, selectedCategories, inputName);
             }
         });
 
         // Обработка удаления категории
-        $container.on('click', '.remove-category', function(e) {
+        $container.on('click', '.remove-category', function (e) {
             e.preventDefault();
             var $category = $(e.currentTarget).closest('.selected-category');
             var id = parseInt($category.data('id'));
@@ -45,14 +45,14 @@
      * Загрузка существующих категорий при редактировании
      */
     function loadExistingCategories($container, selectedCategories) {
-        $container.find('.selected-category').each(function() {
+        $container.find('.selected-category').each(function () {
             var $element = $(this);
             var id = parseInt($element.data('id'));
             var name = $element.data('name');
             var fullPath = $element.data('full-path');
 
             if (id && name) {
-                selectedCategories.push({ id: id, name: name, full_path: fullPath });
+                selectedCategories.push({id: id, name: name, full_path: fullPath});
             }
         });
     }
@@ -72,10 +72,10 @@
             url: url,
             type: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 callback(data);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('[CategoryAutocomplete] Search error:', error);
                 callback([]);
             }
@@ -91,7 +91,7 @@
         var fullPath = item.full_path;
 
         // Проверка на дублирование
-        var exists = selectedCategories.some(function(cat) {
+        var exists = selectedCategories.some(function (cat) {
             return cat.id === id;
         });
 
@@ -125,10 +125,8 @@
             'data-id="' + id + '" ' +
             'data-name="' + escapeHtml(name) + '" ' +
             'data-full-path="' + escapeHtml(fullPath) + '">' +
-            '<span class="badge bg-primary">' +
-            '<i class="fa fa-times-circle remove-category" style="cursor: pointer;"></i> ' +
+            '<a class="remove-category"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd"></path></svg></a>' +
             escapeHtml(fullPath || name) +
-            '</span>' +
             '<input type="hidden" name="' + inputName + '" value="' + id + '">' +
             '</div>';
 
@@ -171,12 +169,14 @@
             '"': '&quot;',
             "'": '&#039;'
         };
-        return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
+        return String(text).replace(/[&<>"']/g, function (m) {
+            return map[m];
+        });
     }
 
     // Автоматическая инициализация всех элементов с data-category-autocomplete
-    $(document).ready(function() {
-        $('[data-category-autocomplete]').each(function() {
+    $(document).ready(function () {
+        $('[data-category-autocomplete]').each(function () {
             initAutocomplete($(this));
         });
     });

@@ -3,7 +3,7 @@
         {{ $label }}
         @if($required)<span class="text-danger">*</span>@endif
     </label>
-
+    <a class="remove-category"><x-main-icon name="minus-circle" size="sm" variant="solid"></x-main-icon></a>
     <div data-category-autocomplete
          data-url="{{ $url }}"
          data-name="{{ $name }}">
@@ -14,7 +14,6 @@
                    placeholder="{{ $placeholder }}"
                    autocomplete="off">
         </div>
-
         <div class="category-autocomplete-selected mt-2 p-3 border rounded bg-light"
              data-placeholder="Выбранные категории будут отображаться здесь">
             @if($selected->isNotEmpty())
@@ -24,7 +23,7 @@
                          data-name="{{ $category->name }}"
                          data-full-path="{{ $category->getFullPath() }}">
                         <span class="badge bg-primary">
-                            <i class="fa fa-times-circle remove-category" style="cursor: pointer;"></i>
+                            <a class="remove-category"><x-main-icon name="minus-circle" size="sm" variant="solid"></x-main-icon></a>
                             {{ $category->getFullPath() }}
                         </span>
                         <input type="hidden" name="{{ $name }}" value="{{ $category->id }}">
