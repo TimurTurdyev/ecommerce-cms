@@ -89,17 +89,7 @@ import $ from 'jquery';
                     results: data
                 });
 
-                // Преобразуем в формат для autocomplete
-                var items = data.map(function(category) {
-                    return {
-                        label: category.full_path,
-                        value: category.id,
-                        name: category.name,
-                        full_path: category.full_path
-                    };
-                });
-
-                callback(items);
+                callback(data);
             },
             error: function(xhr, status, error) {
                 console.error('[CategoryAutocomplete] Search error', {

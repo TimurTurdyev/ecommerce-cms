@@ -71,10 +71,11 @@ class CategoryController extends Controller
             ->limit(10)
             ->get();
 
-        // Формирование результатов с full_path
+        // Формирование результатов в формате для autocomplete.js
         $results = $categories->map(static function (Category $category) {
             return [
-                'id' => $category->id,
+                'value' => $category->id,
+                'label' => $category->getFullPath(),
                 'name' => $category->name,
                 'full_path' => $category->getFullPath(),
             ];
@@ -84,10 +85,11 @@ class CategoryController extends Controller
 
         // Verbose logging
         if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[CategoryController.search] Search completed', [
+            Log::debug('[FIX] CategoryController.search completed', [
                 'query' => $query,
                 'results_count' => $results->count(),
                 'duration_ms' => $duration,
+                'format' => 'autocomplete.js compatible (value, label)',
                 'results' => $results->toArray(),
             ]);
         }
