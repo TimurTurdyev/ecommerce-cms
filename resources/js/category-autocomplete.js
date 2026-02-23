@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 /**
  * Category Autocomplete - универсальный компонент
  * Автоматически инициализируется для элементов с data-category-autocomplete

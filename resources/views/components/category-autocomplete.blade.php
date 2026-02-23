@@ -8,10 +8,12 @@
          data-url="{{ $url }}"
          data-name="{{ $name }}">
 
-        <input type="text"
-               class="form-control category-autocomplete-input"
-               placeholder="{{ $placeholder }}"
-               autocomplete="off">
+        <div class="position-relative">
+            <input type="text"
+                   class="form-control category-autocomplete-input"
+                   placeholder="{{ $placeholder }}"
+                   autocomplete="off">
+        </div>
 
         <div class="category-autocomplete-selected mt-2 p-3 border rounded bg-light"
              data-placeholder="Выбранные категории будут отображаться здесь">
