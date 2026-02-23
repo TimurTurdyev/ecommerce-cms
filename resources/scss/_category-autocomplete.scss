@@ -24,6 +24,11 @@
         top: auto !important;
         left: auto !important;
 
+        // Скрываем пустой dropdown
+        &:empty {
+            display: none !important;
+        }
+
         // Результат поиска (li элементы)
         li {
             a {
