@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class ProductRequest extends FormRequest
 {
@@ -13,11 +14,22 @@ class ProductRequest extends FormRequest
 
     public function rules(): array
     {
+        // Verbose logging для отладки валидации product_category
+        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
+            Log::debug('[ProductRequest.rules] Validating product request', [
+                'has_product_category' => $this->has('product_category'),
+                'categories_count' => $this->has('product_category') ? count($this->input('product_category', [])) : 0,
+                'product_category_values' => $this->input('product_category', []),
+            ]);
+        }
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'model' => ['required', 'string', 'max:255'],
             'sku' => ['nullable', 'string', 'max:255'],
             'manufacturer_id' => ['nullable', 'integer', 'exists:manufacturers,id'],
+            'product_category' => ['nullable', 'array'],
+            'product_category.*' => ['integer', 'exists:categories,id'],
             'quantity' => ['nullable', 'integer', 'min:0'],
             'price' => ['nullable', 'numeric', 'min:0'],
             'weight' => ['nullable', 'numeric', 'min:0'],
