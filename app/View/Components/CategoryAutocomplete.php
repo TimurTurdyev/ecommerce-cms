@@ -15,13 +15,21 @@ class CategoryAutocomplete extends Component
      * Создать экземпляр компонента
      */
     public function __construct(
-        public string $name = 'product_categories[]',
+        public string $name = '',
         public string $label = 'Категории',
         public string $placeholder = 'Начните вводить название категории...',
-        public string $url = '/category/search',
+        public string $url = '',
         public Collection|array $selected = [],
         public bool $required = false,
     ) {
+        if (!$this->name) {
+            throw new \InvalidArgumentException('Поле [name] обязательно для заполнения');
+        }
+
+        if (!$this->url) {
+            throw new \InvalidArgumentException('Поле [url] обязательно для заполнения');
+        }
+
         if (is_array($this->selected)) {
             $this->selected = collect($this->selected);
         }

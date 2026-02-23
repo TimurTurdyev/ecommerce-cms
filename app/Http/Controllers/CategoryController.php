@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Tables\CategoriesTable;
 use App\Tables\Renderers\TableRenderer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -25,7 +24,8 @@ class CategoryController extends Controller
 
     public function createOrEdit(Category $category, Request $request)
     {
-        $parents = Category::where('id', '!=', $category->id)
+        $parents = Category::query()
+            ->where('id', '!=', $category->id)
             ->pluck('name', 'id');
 
         return view('category.create', compact('category', 'parents'));
@@ -59,7 +59,7 @@ class CategoryController extends Controller
     {
         // Валидация
         $validated = $request->validate([
-            'q' => ['required', 'string', 'min:2', 'max:100'],
+            'q' => ['nullable', 'string', 'max:100'],
         ]);
 
         $query = $validated['q'];

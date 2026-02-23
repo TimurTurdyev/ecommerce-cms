@@ -43,6 +43,7 @@
                 </div>
                 <div class="col-md-12">
                     <x-category-autocomplete
+                        :url="route('category.search')"
                         name="product_categories[]"
                         label="Категории"
                         :selected="$product->categories ?? collect()"

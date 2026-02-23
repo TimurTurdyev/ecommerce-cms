@@ -60,10 +60,10 @@
      * AJAX поиск категорий
      */
     function searchCategories(query, callback, searchUrl) {
-        if (query.length < 2) {
-            callback([]);
-            return;
-        }
+        // if (query.length < 2) {
+        //     callback([]);
+        //     return;
+        // }
 
         let url = searchUrl + '?q=' + encodeURIComponent(query);
 

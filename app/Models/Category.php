@@ -66,7 +66,8 @@ class Category extends Model
      */
     public function scopeSearch($query, $term)
     {
-        return $query->where('name', 'LIKE', "%{$term}%")
+        return $query
+            ->where('name', 'LIKE', "%{$term}%")
             ->where('status', true);
     }
 }
