@@ -27,11 +27,13 @@
                     <x-forms.input name="name" label="Название" value="{{ $category->name ?? '' }}" required/>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.select name="parent_id" label="Родительская категория" :value="$category->parent_id ?? 0">
-                        <option value="0">-- Нет --</option>
-                        @foreach($parents as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
-                        @endforeach
+                    <x-forms.select
+                        name="parent_id"
+                        label="Родительская категория"
+                        :selected="$category->parent_id ?? 0"
+                        :options="$parents"
+                        placeholder="Выберите"
+                    >
                     </x-forms.select>
                 </div>
                 <div class="col-md-6">

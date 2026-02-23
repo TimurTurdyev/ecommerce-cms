@@ -36,7 +36,8 @@
                     <x-forms.select
                         name="manufacturer_id"
                         label="Производитель"
-                        :value="$product->manufacturer_id ?? ''"
+                        placeholder="Выберите"
+                        :selected="$product->manufacturer_id ?? ''"
                         :options="$manufacturers">
                     </x-forms.select>
                 </div>

@@ -14,15 +14,6 @@ class ProductRequest extends FormRequest
 
     public function rules(): array
     {
-        // Verbose logging для отладки валидации product_category
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[ProductRequest.rules] Validating product request', [
-                'has_product_category' => $this->has('product_category'),
-                'categories_count' => $this->has('product_category') ? count($this->input('product_category', [])) : 0,
-                'product_category_values' => $this->input('product_category', []),
-            ]);
-        }
-
         return [
             'name' => ['required', 'string', 'max:255'],
             'model' => ['required', 'string', 'max:255'],

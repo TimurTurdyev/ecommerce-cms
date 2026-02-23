@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
-use App\Models\Category;
 use App\Models\Manufacturer;
 use App\Models\Product;
 use App\Tables\ProductsTable;
@@ -27,9 +26,8 @@ class ProductController extends Controller
     public function createOrEdit(Product $product, Request $request)
     {
         $manufacturers = Manufacturer::pluck('name', 'id');
-        $categories = Category::pluck('name', 'id');
 
-        return view('product.create', compact('product', 'manufacturers', 'categories'));
+        return view('product.create', compact('product', 'manufacturers'));
     }
 
     public function delete(Product $product)

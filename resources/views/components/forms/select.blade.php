@@ -24,10 +24,10 @@
     <select
         id="{{ $id }}"
         name="{{ $name }}{{ $attributes->has('multiple') ? '[]' : '' }}"
-        {{ $attributes->except(['id', 'class', 'options', 'selected', 'label', 'name'])->merge(['class' => $classes]) }}
+        {{ $attributes->except(['id', 'class', 'options', 'selected', 'label', 'name', 'placeholder'])->merge(['class' => $classes]) }}
     >
         @if($attributes->has('placeholder'))
-            <option value="" disabled {{ !$selected ? 'selected' : '' }}>
+            <option value="">
                 {{ $attributes->get('placeholder') }}
             </option>
         @endif
@@ -36,9 +36,9 @@
             <option value="{{ $value }}"
             @if(is_array($selected))
                 {{ in_array($value, $selected) ? 'selected' : '' }}
-                @else
-                {{ $value == $selected ? 'selected' : '' }}
-                @endif
+            @else
+            {{ $value == $selected ? 'selected' : '' }}
+            @endif
             >
                 {{ $text }}
             </option>
