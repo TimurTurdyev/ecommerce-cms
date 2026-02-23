@@ -41,34 +41,11 @@
                     </x-forms.select>
                 </div>
                 <div class="col-md-12">
-                    <label for="category-search" class="form-label">Категории</label>
-                    <div class="position-relative">
-                        <input type="text"
-                               id="category-search"
-                               class="form-control"
-                               placeholder="Начните вводить название категории..."
-                               autocomplete="off">
-                        <div id="category-dropdown" class="dropdown-menu" style="display: none; width: 100%;"></div>
-                    </div>
-
-                    <div id="selected-categories" class="mt-2 p-3 border rounded bg-light" style="min-height: 100px; max-height: 200px; overflow-y: auto;">
-                        @if($product->id && $product->categories->count() > 0)
-                            @foreach($product->categories as $category)
-                                <div class="selected-category mb-1 d-inline-block"
-                                     data-id="{{ $category->id }}"
-                                     data-name="{{ $category->name }}"
-                                     data-full-path="{{ $category->getFullPath() }}">
-                                    <span class="badge bg-primary">
-                                        <i class="fa fa-times-circle remove-category" style="cursor: pointer;"></i>
-                                        {{ $category->getFullPath() }}
-                                    </span>
-                                    <input type="hidden" name="product_category[]" value="{{ $category->id }}">
-                                </div>
-                            @endforeach
-                        @else
-                            <p class="text-muted mb-0 small">Выбранные категории будут отображаться здесь</p>
-                        @endif
-                    </div>
+                    <x-category-autocomplete
+                        name="product_category[]"
+                        label="Категории"
+                        :selected="$product->categories ?? collect()"
+                    />
                 </div>
                 <div class="col-md-4">
                     <x-forms.input name="price" label="Цена" type="number" step="0.01" value="{{ $product->price ?? 0 }}"/>

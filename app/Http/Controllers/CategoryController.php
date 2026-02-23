@@ -57,8 +57,6 @@ class CategoryController extends Controller
      */
     public function search(Request $request)
     {
-        $startTime = microtime(true);
-
         // Валидация
         $validated = $request->validate([
             'q' => ['required', 'string', 'min:2', 'max:100'],
@@ -80,19 +78,6 @@ class CategoryController extends Controller
                 'full_path' => $category->getFullPath(),
             ];
         });
-
-        $duration = round((microtime(true) - $startTime) * 1000, 2);
-
-        // Verbose logging
-        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
-            Log::debug('[FIX] CategoryController.search completed', [
-                'query' => $query,
-                'results_count' => $results->count(),
-                'duration_ms' => $duration,
-                'format' => 'autocomplete.js compatible (value, label)',
-                'results' => $results->toArray(),
-            ]);
-        }
 
         return response()->json($results);
     }

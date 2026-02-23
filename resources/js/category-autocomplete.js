@@ -1,54 +1,52 @@
 import $ from 'jquery';
 
 /**
- * Category Autocomplete - функциональный стиль
- * Использует autocomplete.js плагин
+ * Category Autocomplete - универсальный компонент
+ * Автоматически инициализируется для элементов с data-category-autocomplete
  */
 (function($) {
     'use strict';
 
-    // Хранилище выбранных категорий
-    var selectedCategories = [];
-
     /**
-     * Инициализация autocomplete для категорий
+     * Инициализация autocomplete для одного элемента
      */
-    function initCategoryAutocomplete() {
-        var $input = $('#category-search');
-        var $container = $('#selected-categories');
+    function initAutocomplete($wrapper) {
+        var $input = $wrapper.find('.category-autocomplete-input');
+        var $container = $wrapper.find('.category-autocomplete-selected');
+        var searchUrl = $wrapper.data('url') || '/category/search';
+        var inputName = $wrapper.data('name') || 'product_category[]';
+        var selectedCategories = [];
 
-        if (!$input.length) {
+        if (!$input.length || !$container.length) {
             return;
         }
 
-        console.debug('[CategoryAutocomplete] Initializing');
-
         // Загружаем уже выбранные категории из DOM
-        loadExistingCategories($container);
+        loadExistingCategories($container, selectedCategories);
 
         // Инициализируем autocomplete
         $input.autocomplete({
             source: function(query, response) {
-                searchCategories(query, response);
+                searchCategories(query, response, searchUrl);
             },
             select: function(item) {
-                selectCategory(item, $input, $container);
+                selectCategory(item, $input, $container, selectedCategories, inputName);
             }
         });
 
         // Обработка удаления категории
-        $(document).on('click', '.remove-category', function(e) {
+        $container.on('click', '.remove-category', function(e) {
             e.preventDefault();
             var $category = $(e.currentTarget).closest('.selected-category');
             var id = parseInt($category.data('id'));
-            removeCategory(id, $container);
+            removeCategory(id, $container, selectedCategories);
         });
     }
 
     /**
      * Загрузка существующих категорий при редактировании
      */
-    function loadExistingCategories($container) {
+    function loadExistingCategories($container, selectedCategories) {
         $container.find('.selected-category').each(function() {
             var $element = $(this);
             var id = parseInt($element.data('id'));
@@ -57,45 +55,30 @@ import $ from 'jquery';
 
             if (id && name) {
                 selectedCategories.push({ id: id, name: name, full_path: fullPath });
-                console.debug('[CategoryAutocomplete] Loaded existing category', { id: id, name: name });
             }
         });
-
-        console.debug('[CategoryAutocomplete] Total existing categories:', selectedCategories.length);
     }
 
     /**
      * AJAX поиск категорий
      */
-    function searchCategories(query, callback) {
-        // Минимум 2 символа
+    function searchCategories(query, callback, searchUrl) {
         if (query.length < 2) {
             callback([]);
             return;
         }
 
-        console.debug('[CategoryAutocomplete] Searching', { query: query });
-
-        var url = '/category/search?q=' + encodeURIComponent(query);
+        var url = searchUrl + '?q=' + encodeURIComponent(query);
 
         $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.debug('[CategoryAutocomplete] Results received', {
-                    query: query,
-                    count: data.length,
-                    results: data
-                });
-
                 callback(data);
             },
             error: function(xhr, status, error) {
-                console.error('[CategoryAutocomplete] Search error', {
-                    query: query,
-                    error: error
-                });
+                console.error('[CategoryAutocomplete] Search error:', error);
                 callback([]);
             }
         });
@@ -104,16 +87,10 @@ import $ from 'jquery';
     /**
      * Выбор категории из результатов
      */
-    function selectCategory(item, $input, $container) {
+    function selectCategory(item, $input, $container, selectedCategories, inputName) {
         var id = parseInt(item.value);
         var name = item.name;
         var fullPath = item.full_path;
-
-        console.debug('[CategoryAutocomplete] Selecting category', {
-            id: id,
-            name: name,
-            full_path: fullPath
-        });
 
         // Проверка на дублирование
         var exists = selectedCategories.some(function(cat) {
@@ -121,7 +98,6 @@ import $ from 'jquery';
         });
 
         if (exists) {
-            console.debug('[CategoryAutocomplete] Category already selected, ignoring', { id: id });
             $input.val('');
             return;
         }
@@ -133,13 +109,8 @@ import $ from 'jquery';
             full_path: fullPath
         });
 
-        console.debug('[CategoryAutocomplete] Category added', {
-            id: id,
-            total: selectedCategories.length
-        });
-
         // Добавляем в DOM
-        renderSelectedCategory(id, name, fullPath, $container);
+        renderSelectedCategory(id, name, fullPath, $container, inputName);
 
         // Очищаем input
         $input.val('');
@@ -148,7 +119,7 @@ import $ from 'jquery';
     /**
      * Рендеринг выбранной категории
      */
-    function renderSelectedCategory(id, name, fullPath, $container) {
+    function renderSelectedCategory(id, name, fullPath, $container, inputName) {
         // Удаляем placeholder если есть
         $container.find('.text-muted').remove();
 
@@ -160,7 +131,7 @@ import $ from 'jquery';
             '<i class="fa fa-times-circle remove-category" style="cursor: pointer;"></i> ' +
             escapeHtml(fullPath || name) +
             '</span>' +
-            '<input type="hidden" name="product_category[]" value="' + id + '">' +
+            '<input type="hidden" name="' + inputName + '" value="' + id + '">' +
             '</div>';
 
         $container.append(html);
@@ -169,25 +140,25 @@ import $ from 'jquery';
     /**
      * Удаление категории
      */
-    function removeCategory(id, $container) {
-        console.debug('[CategoryAutocomplete] Removing category', { id: id });
-
+    function removeCategory(id, $container, selectedCategories) {
         // Удаляем из массива
-        selectedCategories = selectedCategories.filter(function(cat) {
-            return cat.id !== id;
-        });
-
-        console.debug('[CategoryAutocomplete] Category removed', {
-            id: id,
-            total: selectedCategories.length
-        });
+        var index = -1;
+        for (var i = 0; i < selectedCategories.length; i++) {
+            if (selectedCategories[i].id === id) {
+                index = i;
+                break;
+            }
+        }
+        if (index !== -1) {
+            selectedCategories.splice(index, 1);
+        }
 
         // Удаляем из DOM
         $container.find('.selected-category[data-id="' + id + '"]').remove();
 
         // Если категорий нет, показываем placeholder
-        if (selectedCategories.length === 0) {
-            $container.html('<p class="text-muted mb-0 small">Выбранные категории будут отображаться здесь</p>');
+        if (selectedCategories.length === 0 && $container.data('placeholder')) {
+            $container.html('<p class="text-muted mb-0 small">' + $container.data('placeholder') + '</p>');
         }
     }
 
@@ -205,9 +176,11 @@ import $ from 'jquery';
         return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
-    // Инициализация при загрузке DOM
+    // Автоматическая инициализация всех элементов с data-category-autocomplete
     $(document).ready(function() {
-        initCategoryAutocomplete();
+        $('[data-category-autocomplete]').each(function() {
+            initAutocomplete($(this));
+        });
     });
 
 })(window.jQuery);
