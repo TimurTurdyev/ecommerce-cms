@@ -1,0 +1,127 @@
+// Category Autocomplete Styles
+// Используются в форме товара для выбора категорий
+
+// Контейнер поиска
+#category-search {
+    &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+    }
+}
+
+// Dropdown с результатами поиска
+#category-dropdown {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+    // Результат поиска
+    .category-result {
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+        transition: background-color 0.15s ease-in-out;
+        font-size: 0.9rem;
+
+        &:hover {
+            background-color: $gray-100;
+        }
+
+        &:active {
+            background-color: $gray-200;
+        }
+    }
+
+    // Сообщение "Ничего не найдено"
+    .text-muted {
+        cursor: default;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    // Сообщение об ошибке
+    .text-danger {
+        cursor: default;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
+
+// Блок с выбранными категориями
+#selected-categories {
+    // Выбранная категория (badge)
+    .selected-category {
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+        transition: opacity 0.15s ease-in-out;
+
+        .badge {
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+
+            // Иконка удаления
+            .remove-category {
+                margin-right: 0.5rem;
+                cursor: pointer;
+                transition: opacity 0.15s ease-in-out;
+
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+        }
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+
+    // Плейсхолдер текст
+    .text-muted {
+        font-style: italic;
+    }
+}
+
+// Responsive дизайн
+@media (max-width: 768px) {
+    #category-dropdown {
+        font-size: 0.85rem;
+
+        .category-result {
+            padding: 0.4rem 0.6rem;
+        }
+    }
+
+    #selected-categories {
+        .selected-category .badge {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.6rem;
+        }
+    }
+}
+
+// Dark theme support
+[data-bs-theme="dark"] {
+    #category-dropdown {
+        background-color: $dark;
+        border-color: rgba(255, 255, 255, 0.15);
+
+        .category-result {
+            color: $light;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+
+    #selected-categories {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+}

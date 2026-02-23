@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
             $router->delete('/{category}/delete', 'delete')->name('delete');
             $router->post('/store', 'store')->name('store');
             $router->post('/{category}/update', 'update')->name('update');
+            $router->get('/search', 'search')->name('search');
         });
 
     Route::controller(\App\Http\Controllers\ManufacturerController::class)

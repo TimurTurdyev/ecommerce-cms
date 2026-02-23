@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Tables\CategoriesTable;
 use App\Tables\Renderers\TableRenderer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -49,5 +50,55 @@ class CategoryController extends Controller
         $category->update($request->validated());
 
         return redirect()->route('category.edit', $category);
+    }
+
+    /**
+     * AJAX endpoint для поиска категорий (autocomplete)
+     */
+    public function search(Request $request)
+    {
+        $startTime = microtime(true);
+
+        // Валидация
+        $validated = $request->validate([
+            'q' => ['required', 'string', 'min:2', 'max:100'],
+        ]);
+
+        $query = $validated['q'];
+
+        // Verbose logging
+        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
+            Log::debug('[CategoryController.search] Search request received', [
+                'query' => $query,
+            ]);
+        }
+
+        // Поиск категорий
+        $categories = Category::search($query)
+            ->limit(10)
+            ->get();
+
+        // Формирование результатов с full_path
+        $results = $categories->map(function ($category) {
+            return [
+                'id' => $category->id,
+                'name' => $category->name,
+                'full_path' => $category->getFullPath(),
+            ];
+        });
+
+        $duration = round((microtime(true) - $startTime) * 1000, 2);
+
+        // Verbose logging
+        if (config('app.debug') && env('LOG_LEVEL') === 'debug') {
+            Log::debug('[CategoryController.search] Search completed', [
+                'query' => $query,
+                'results_count' => $results->count(),
+                'duration_ms' => $duration,
+                'results' => $results->toArray(),
+            ]);
+        }
+
+        return response()->json($results);
     }
 }
