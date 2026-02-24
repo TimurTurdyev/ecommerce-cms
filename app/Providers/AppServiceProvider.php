@@ -77,54 +77,15 @@ class AppServiceProvider extends ServiceProvider
         return [
             [
                 'label' => 'Каталог',
-                'items' => [
-                    [
-                        'label' => 'Товары',
-                        'icon' => 'cube',
-                        'url' => route('product.index'),
-                        'active' => request()->routeIs('product.*'),
-                    ],
-                    [
-                        'label' => 'Категории',
-                        'icon' => 'folder',
-                        'url' => route('category.index'),
-                        'active' => request()->routeIs('category.*'),
-                    ],
-                    [
-                        'label' => 'Производители',
-                        'icon' => 'building-office',
-                        'url' => route('manufacturer.index'),
-                        'active' => request()->routeIs('manufacturer.*'),
-                    ],
-                    [
-                        'label' => 'Опции',
-                        'icon' => 'adjustments-horizontal',
-                        'url' => route('option.index'),
-                        'active' => request()->routeIs('option.*'),
-                    ],
-                ],
+                'items' => [],
             ],
             [
                 'label' => 'Заказы',
-                'items' => [
-                    [
-                        'label' => 'Заказы',
-                        'icon' => 'shopping-cart',
-                        'url' => route('order.index'),
-                        'active' => request()->routeIs('order.*'),
-                    ],
-                ],
+                'items' => [],
             ],
             [
                 'label' => 'Контент',
-                'items' => [
-                    [
-                        'label' => 'Статьи',
-                        'icon' => 'document-text',
-                        'url' => route('information.index'),
-                        'active' => request()->routeIs('information.*'),
-                    ],
-                ],
+                'items' => [],
             ],
             [
                 'label' => 'Настройки',
